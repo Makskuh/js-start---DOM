@@ -1,22 +1,23 @@
 'use strict';
-const img = document.querySelector('#img');
 const yourTask = document.querySelector('.question-btn');
 const todoList = document.querySelector('.article-todo');
-const deleteBtn = document.querySelector('.btn');
-let newTask;
-let newSection ;
-let newButtonDelete;
+function deleteHandler(event){
+  event.target.parentElement.remove()
+  }
+
 yourTask.addEventListener('click', function () {
-let newElem;
-newTask = prompt('Write new task');
+
+const newTask = prompt('Write new task');
 if(newTask != '') {
-  newSection = document.createElement('section');
+  const newSection = document.createElement('section');
   newSection.classList.add('section-question');
-  newButtonDelete = document.createElement('button');
+  
+  const newButtonDelete = document.createElement('button');
   newButtonDelete.classList.add('btn');
-  newButtonDelete.innerText = 'Delete'
+  newButtonDelete.innerText = 'Delete';
+  newButtonDelete.addEventListener('click',deleteHandler)
   todoList.append(newSection)
-  newElem = document.createElement('p')
+  const newElem = document.createElement('p')
   newElem.Textcontent = (newTask);
   newElem.classList.add('text');
   newSection.append(newTask);
@@ -24,9 +25,4 @@ if(newTask != '') {
 } else
 alert('Write something')
 });
-todoList.addEventListener('click', function(event) {
-  if(event.target !== yourTask) {
-  let elem = event.target;
-  elem.parentElement.remove();
-  } else undefined;
-})
+
