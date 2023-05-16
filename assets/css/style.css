@@ -9,6 +9,12 @@ body {
   align-items: center;
   height: 100vh;
 }
+.form {
+  height: 50px;
+}
+#input {
+  height: 100%;
+}
 .h1 {
   font-size: 2rem;
   color: rgb(34, 30, 135);
