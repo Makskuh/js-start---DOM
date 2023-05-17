@@ -1,50 +1,91 @@
 'use strict';
-const todoList = document.querySelector('.article-todo');
-const form = document.querySelector('#form');
-const btnSubmit = document.querySelector('#submit');
 
-function deleteHandler(event) {
-  event.target.parentElement.remove();
+// 1. знайти контейнер для коментів
+const commentsContainer = document.querySelector('#root');
+
+//  2. динамічно створити верстку для кожного об'єкту в масиві
+//    2.1 створити функцію яка буде перетворювати об'єкт на html-елемент
+
+function createUserComment(comment) {
+  const {
+    authorImg,
+    authorName: authorNameString,
+    title,
+    mark: markText,
+    text,
+    pros,
+    cons,
+  } = comment;
+  const liElement = document.createElement('li');
+  liElement.classList.add('commentWrapper');
+
+  const article = document.createElement('article');
+  article.classList.add('commentArticle');
+
+  const authorData = document.createElement('div');
+  authorData.classList.add('authorData');
+
+  const imageWrapper = createImage({ src: authorImg, alt: authorNameString });
+
+  const authorName = document.createElement('p');
+  authorName.classList.add('authorName');
+  authorName.textContent = authorNameString;
+
+  const commentTitle = createElement(
+    'h2',
+    { classNames: ['commentTitle'] },
+    title
+  );
+  const prosAr = pros.map((value) =>createElement('li',{classNames:['li']},value));
+
+  const consAr = cons.map((value)=>createElement('li',{classNames:['li']},value))
+
+  const mark = createElement('p', { classNames: ['mark'] }, `${markText} / 10`);
+  const prosElem = createElement('ul', { classNames: ['ul'] }, 'pros: ',...prosAr);
+  const consElem = createElement('ul', { classNames: ['ul'] }, 'cons: ',...consAr);
+
+
+  const commentText = createElement(
+    'p',
+    {
+      classNames: ['commentText', 'anotherClass'],
+    },
+    text
+  );
+
+  const commentBody = createElement(
+    'div',
+    { classNames: ['commentBody'] },
+    commentTitle,
+    mark,
+    prosElem,
+    consElem,
+    commentText
+  );
+  authorData.append(imageWrapper, authorName);
+  article.append(authorData, commentBody);
+  liElement.append(article);
+  return liElement;
 }
 
-form.addEventListener('submit', function (e) {
-  e.preventDefault();
-  const { target: formElements } = e;
-  const { elements } = formElements;
-  if (elements.newTask.value === '' || elements.newTask.value === ' ') {
-    throw new TypeError('Write something');
-    return;
-  }
-  const newSection = document.createElement('section');
-  newSection.classList.add('section-question');
+function createImage({ src, alt }) {
+  const imageWrapper = document.createElement('div');
+  imageWrapper.classList.add('imageWrapper');
 
-  const newButtonDelete = document.createElement('button');
-  newButtonDelete.classList.add('btn');
-  newButtonDelete.innerText = 'Delete';
-  newButtonDelete.addEventListener('click', deleteHandler);
+  const image = document.createElement('img');
+  image.classList.add('authorImg');
+  // image.setAttribute('src', src);
+  image.src = src;
+  image.alt = alt;
 
-  todoList.append(newSection);
+  imageWrapper.append(image);
 
-  const newElem = document.createElement('p');
-  newElem.textContent = elements.newTask.value;
-  newElem.classList.add('text');
+  return imageWrapper;
+}
+//    2.2 викликати функцію з 2.1 для кожного коментаря і зберігаємо результат
+const HTMLLiElements = responseData.map((comment) =>
+  createUserComment(comment)
+);
 
-  newSection.append(newElem);
-  newSection.append(newButtonDelete);
-  elements.newTask.value = '';
-});
-
-const div = document.querySelector('#div');
-const text = document.querySelector('#text-div');
-
-div.addEventListener('click', (e) => {
-  if (e.target.dataset.color === 'red','blue','green','yellow') {
-    div.style.color = e.target.dataset.color
-  }
-  if(e.target.dataset.weight === '800') {
-    div.style.fontWeight =e.target.dataset.weight;
-  }
-  if(e.target.dataset.bgc === 'grey') {
-    div.style.backgroundColor =e.target.dataset.bgc;
-  }
-});
+// 3. розмістити отриману верстку в контейнері
+commentsContainer.append(...HTMLLiElements);
