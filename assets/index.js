@@ -44,7 +44,6 @@ function createUserComment(comment) {
   const prosElem = createElement('ul', { classNames: ['ul'] }, 'pros: ',...prosAr);
   const consElem = createElement('ul', { classNames: ['ul'] }, 'cons: ',...consAr);
 
-
   const commentText = createElement(
     'p',
     {
