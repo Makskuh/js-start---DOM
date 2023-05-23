@@ -90,6 +90,8 @@ const HTMLLiElements = responseData.map((comment) =>
 // 3. розмістити отриману верстку в контейнері
 commentsContainer.append(...HTMLLiElements);
 
+// const newResponce = JSON.stringify(responseData);
 
-fetch(JSON.stringify('./user.json')).then((responce) => responce.json())
+
+fetch('./user.json').then((responce) => responce.json())
 
