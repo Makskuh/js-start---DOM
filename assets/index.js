@@ -83,15 +83,14 @@ function createImage({ src, alt }) {
   return imageWrapper;
 }
 //    2.2 викликати функцію з 2.1 для кожного коментаря і зберігаємо результат
-const HTMLLiElements = responseData.map((comment) =>
-  createUserComment(comment)
-);
+// const HTMLLiElements = responseData.map((comment) =>
+//   createUserComment(comment)
+// );
 
 // 3. розмістити отриману верстку в контейнері
-commentsContainer.append(...HTMLLiElements);
 
 // const newResponce = JSON.stringify(responseData);
-
-
-fetch('./user.json').then((responce) => responce.json())
+const HTMLLiElements = fetch('./assets/user.json')
+.then((response) => response.json()).then((user) => user.map((obj) => commentsContainer.append(createUserComment(obj))))
+ // commentsContainer.append(...HTMLLiElements);
 
